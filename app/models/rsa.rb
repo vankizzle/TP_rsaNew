@@ -1,5 +1,5 @@
 require 'prime'
-class RSA
+class Rsa < ApplicationRecord 
 	attr_accessor :n, :e, :d
    def initialize( n, e, d)
 	@n = n

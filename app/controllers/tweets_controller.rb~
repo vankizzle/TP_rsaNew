@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
   # GET /tweets/1.json
   def show
 	twt = Tweet.find_by id: params[:id], rid: params[:rid]
-	render :json => {'twt' => twt.content}
+render.json:{'twt' => twt.content}
   end
 
   # GET /tweets/new
@@ -31,7 +31,7 @@ class TweetsController < ApplicationController
 	encrypted = (params[:tweet].chars.map {|c| c.ord ** @e % @n}).join(",")
 	twt = Tweet.new({rid: rsa.id, content: encrypted})
 		if(twt.save)
-			render :json =>{'id' => twt.id}
+			render.json:{'id' => twt.id}
 		end
 	end
 	
@@ -39,7 +39,7 @@ def decrypt
 		rsa = Rsa.find_by id: params[:id]
 
 		decrypted = (params[:tweet].split(",").map {|c| (c.to_i ** @d % @n).chr}).join("")
-		render :json => {'content' => decrypted}
+		render.json:{'content' => decrypted}
 	end
 
   # PATCH/PUT /tweets/1
