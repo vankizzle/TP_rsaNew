@@ -46,6 +46,7 @@ class RSA
 	
 	keys = Array[@n,@e,@d]
 	return keys
+		
       #generates a new 'n','e' and 'd' values following the RSA algorithm. Returns a new array of three elements where the first element is 'n', the second is 'e' and the third is 'd'. Each time it is called a new key must be returned.
    end
    

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :rs_as
 
   post '/rsas' => 'rs_as#new'
+  post '/rsas/create' => 'rs_as#create'
   get '/rsas/:id' => 'rs_as#show'
   post '/rsas/:id/encrypt_messages' => 'tweets#new'
   get '/rsas/:id/encrypt_messages/:msgid' => 'tweets#show'

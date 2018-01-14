@@ -1,15 +1,50 @@
+require 'spec_helper'
+require 'rails_helper'
+
 RSpec.describe RsasController do
+  describe 'POST' do
+    temp do
+      post :create, format: :json      
+    end
 
-#it „gets by id“ do
-#get :show, id: 1
-#expect(response.body).to eq
-#„the content“
-#end
+    it 'should generate new key and return its id' do
+      old_count = Rsa.count
+      temp
+      expect(Rsa.count).to eq old_count + 1
+      expect(response.content_type).to eq 'application/json'
+    end
 
-it „creates a new rsa“ do
-post :create, params: {n: 5, e:7, d: 3}
+    it 'should return json' do
+      temp
+      expect(response.content_type).to eq 'application/json'
+    end
 
-expect(Rsa.count).to eq 1
-end
+    it 'should return id' do
+      temp
+      expect(JSON.parse(response.body)['id'].to_i).to be_integer
+    end
 
+    it 'should generate new key with the given params and return its id' do
+      n = 1
+      e = 65537
+      d = 3
+      post :create, params: { n: n, e: e, d: d }, format: :json
+
+      id = JSON.parse(response.body)['id']
+      rsa = Rsa.find_by(id: id)
+
+      expect(rsa.n.to_i).to eq n
+      expect(rsa.e.to_i).to eq e
+      expect(rsa.d.to_i).to eq d
+    end
+  end
+
+  describe 'GET' do
+    it 'should GET the key with id' do
+      Rsa.create
+      id = 1
+      get :show, params: { id: id }, format: :json
+      expect(JSON.parse(response.body)['id'].to_i).to eq id
+    end
+  end
 end
